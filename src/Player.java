@@ -16,6 +16,14 @@ public class Player {
         return isLandlord;
     }
 
+    public int getCashAmt() {
+        return cashAmt;
+    }
+
+    public void setCashAmt(int cashAmt) {
+        this.cashAmt = cashAmt;
+    }
+
     public void setLandlord(boolean landlord) {
         isLandlord = landlord;
     }

@@ -7,14 +7,15 @@ import java.awt.Rectangle;
 public class Card {
 
     private String suit;
-    private String value;
+    private String val;
     private String imageFileName;
     private BufferedImage image;
     private Rectangle cardBox;
+    private int value;
 
     public Card(String suit, String value) {
         this.suit = suit;
-        this.value = value;
+        val = value;
         this.imageFileName = "images/card_"+suit+"_"+value+".png";
 
         //one buffer Image object associated with card
@@ -22,6 +23,35 @@ public class Card {
         //front or back image
         this.image = readImage();
         this.cardBox = new Rectangle(-100, -100, image.getWidth(), image.getHeight());
+        setIntVal();
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setIntVal() {
+        if (val.equals("02")) {
+            value = 15;
+            return;
+        }
+        try {
+            value = Integer.parseInt(val);
+        }
+        catch (NumberFormatException e) {
+            if (val.equals("A")) {
+                value = 14;
+            }
+            else if (val.equals("J")) {
+                value = 11;
+            }
+            else if (val.equals("K")) {
+                value = 13;
+            }
+            else if (val.equals("Q")) {
+                value = 12;
+            }
+        }
     }
 
     public BufferedImage getImage() {
