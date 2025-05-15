@@ -17,8 +17,13 @@ public class Hand {
     private int numOf4;
     private int numOf3;
 
+    public ArrayList<Card> getHand() {
+        return hand;
+    }
+
     public Hand(ArrayList<Card> hand) {
         this.hand = hand;
+        sortCards();
     }
 
     public void sortCards() {
@@ -28,12 +33,11 @@ public class Hand {
             isAdded = false;
             if (sorted.size() == 0) {
                 sorted.add(card);
-                isAdded = true;
             }
             else {
-                for (int x = 0; x <= sorted.size(); x ++) {
-                    if (card.getValue() < sorted.get(x).getValue()) {
-                        sorted.add(0, card);
+                for (int x = 0; x < sorted.size(); x ++) {
+                    if (card.getValue() <= sorted.get(x).getValue()) {
+                        sorted.add(x, card);
                         isAdded = true;
                         x = sorted.size();
                     }
@@ -41,6 +45,7 @@ public class Hand {
                 if (!isAdded) {
                     sorted.add(card);
                 }
+
             }
         }
         hand = sorted;

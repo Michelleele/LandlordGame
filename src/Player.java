@@ -1,14 +1,23 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Player {
 
-    private ArrayList<Card> hand;
+    private Hand hand;
     private int cashAmt;
     private boolean isLandlord;
 
+    public void printHand() {
+        ArrayList<Card> h = hand.getHand();
+        System.out.print("[");
+        for (Card a : h) {
+            System.out.print(a.getValue() + ", ");
+        }
+        System.out.println("]");
+    }
 
     public Player(ArrayList<Card> h) {
-        hand = h;
+        hand = new Hand(h);
         cashAmt = 100;
     }
 
@@ -28,9 +37,9 @@ public class Player {
         isLandlord = landlord;
     }
 
-    public void dealCard(ArrayList<Card> target) {
+    public void dealCards(ArrayList<Card> target) {
         for (Card card : target) {
-            hand.remove(target);
+            hand.getHand().remove(target);
         }
     }
 
