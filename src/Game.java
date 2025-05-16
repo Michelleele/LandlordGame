@@ -18,13 +18,15 @@ public class Game {
     public void buildDeck() {
         ArrayList<Card> array = new ArrayList<Card>();
         String[] suits = {"clubs", "diamonds", "hearts", "spades"};
-        String[] values = {"02", "03", "04", "05", "06", "07", "08", "09", "10", "A", "J", "K", "Q"};
+        String[] values = {"03", "04", "05", "06", "07", "08", "09", "10", "J", "Q", "K", "A", "02"};
         for (String s : suits) {
             for (String v : values) {
                 Card c = new Card(s, v);
                 array.add(c);
             }
         }
+        array.add(new Card("joker", "black"));
+        array.add(new Card("joker", "red"));
 
         int rand;
         int numOfCards = array.size();
@@ -32,11 +34,12 @@ public class Game {
             rand = (int) (Math.random() * array.size());
             deck.add(array.remove(rand));
         }
+
     }
 
     public static ArrayList<Card> createHand(ArrayList<Card> deck) {
         ArrayList<Card> hand = new ArrayList<Card>();
-        for (int x = 0; x < 16; x ++) {
+        for (int x = 0; x < 17; x ++) {
             hand.add(deck.remove(0));
         }
         return hand;
@@ -46,25 +49,15 @@ public class Game {
         ArrayList<Card> hand1 = createHand(deck);
         ArrayList<Card> hand2 = createHand(deck);
         ArrayList<Card> hand3 = createHand(deck);
-        System.out.println(deck.size());
         bottomCards = new Card[3];
 
-        for (int x = 0; x < 2; x ++) {
+        for (int x = 0; x < 3; x ++) {
             bottomCards[x] = deck.remove(0);
         }
-
-        System.out.print("Bottom Cards: [");
-        for (Card a : bottomCards) {
-            System.out.print(a.getValue() + ", ");
-        }
-        System.out.println("]");
 
         user = new Player(hand1);
         bot1 = new Player(hand2);
         bot2 = new Player(hand3);
-        user.printHand();
-        bot1.printHand();
-        bot2.printHand();
     }
 
 }

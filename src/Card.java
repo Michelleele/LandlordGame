@@ -51,6 +51,12 @@ public class Card {
             else if (val.equals("Q")) {
                 value = 12;
             }
+            else if (val.equals("red")) {
+                value = 17;
+            }
+            else if (val.equals("black")) {
+                value = 16;
+            }
         }
     }
 
