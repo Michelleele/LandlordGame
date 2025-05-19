@@ -91,20 +91,178 @@ public class Hand {
                 numOfJoker++;
             }
         }
-        cardCountArray = new int[]{numOf3, numOf4, numOf5, numOf6, numOf7, numOf8, numOf9, numOf10, numOfJ, numOfQ, numOfK, numOfA, numOf2, numOfJoker};
+        cardCountArray = new int[]
+                {numOf3, numOf4, numOf5, numOf6, numOf7, numOf8, numOf9, numOf10,
+                        numOfJ, numOfQ, numOfK, numOfA, numOf2, numOfJoker};
+    }
+
+    public ArrayList<Card> singlesList() {
+        ArrayList<Card> array = new ArrayList<>();
+        int count;
+        for (int index = 0; index < cardCountArray.length; index ++) {
+            if (cardCountArray[index] == 1) {
+                count = 0;
+                for (int x = 0; x < index; x ++) {
+                    count += cardCountArray[x];
+                }
+                array.add(hand.get(count));
+            }
+        }
+        return array;
+    }
+
+    public ArrayList<Card> pairsList() {
+        ArrayList<Card> array = new ArrayList<>();
+        int count;
+        for (int index = 0; index < cardCountArray.length; index++) {
+            if (cardCountArray[index] == 2 && index != 13) {
+                count = 0;
+                for (int x = 0; x < index; x++) {
+                    count += cardCountArray[x];
+                }
+                array.add(hand.get(count));
+            }
+        }
+        return array;
+    }
+
+    public ArrayList<Card> tripletsList() {
+        ArrayList<Card> array = new ArrayList<>();
+        int count;
+        for (int index = 0; index < cardCountArray.length; index ++) {
+            if (cardCountArray[index] == 3) {
+                count = 0;
+                for (int x = 0; x < index; x ++) {
+                    count += cardCountArray[x];
+                }
+                array.add(hand.get(count));
+            }
+        }
+        return array;
     }
 
     public boolean haveSingles() {
-        for (int count : cardCountArray) {
-            if (count >= 1) {
-                return true;
-            }
+        ArrayList<Card> array = singlesList();
+        if (array.size() > 0) {
+            return true;
         }
         return false;
     }
 
     public boolean havePairs() {
-        for (int count : cardCountArray) {
+        ArrayList<Card> array = pairsList();
+        if (array.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean haveTriplets() {
+        ArrayList<Card> array = tripletsList();
+        if (array.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean haveTripletWithAttachedCard() {
+        ArrayList<Card> tripletArray = tripletsList();
+        ArrayList<Card> singleArray = singlesList();
+        for (Card card : tripletArray) {
+            for (Card c : singleArray) {
+                if (card.getValue() != c.getValue()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean haveTripletWithAttachedPair() {
+        ArrayList<Card> tripletArray = tripletsList();
+        ArrayList<Card> pairArray = pairsList();
+        for (Card card : tripletArray) {
+            for (Card c : pairArray) {
+                if (card.getValue() != c.getValue()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean haveSequence() {
+        int numCount = 1;
+        for (int cardCount : cardCountArray) {
+            if (cardCount == 1) {
+                numCount ++;
+            }
+            else {
+                numCount = 0;
+            }
+        }
+        if (numCount >= 5) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean haveSequenceOfPairs() {
+        int numCount = 1;
+        for (int cardCount : cardCountArray) {
+            if ((cardCount == 2) && () && ()) {
+                numCount ++;
+            }
+            else {
+                numCount = 0;
+            }
+        }
+        if (numCount >= 3) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean haveSequenceOfTriplets() {
+        int numCount = 1;
+        for (int cardCount : cardCountArray) {
+            if (cardCount == 3) {
+                numCount ++;
+            }
+            else {
+                numCount = 0;
+            }
+        }
+        if (numCount >= 2) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean haveSequenceOFTripletWithAttachedCard() {
+        ArrayList<Card> tripletArray = tripletsList();
+        ArrayList<Card> singleArray = singlesList();
+        ArrayList<Card> array = new ArrayList<Card>();
+        int previousVal = tripletArray.get(0).getValue();
+        array.add(tripletArray.get(0));
+        for (Card card : tripletArray) {
+            if (card.getValue() - 1 == previousVal) {
+                array.add(card);
+            }
+            else {
+                array = new ArrayList<Card>();
+            }
+            previousVal = card.getValue();
+        }
+        if (array.size() >= 2) {
+            int count = 0;
+            for (Card card : singleArray) {
+                for (Card c : array) {
+                    if (card.getValue() != c.getValue()) {
+                        count ++;
+                    }
+                }
+            }
             if (count >= 2) {
                 return true;
             }
@@ -112,16 +270,36 @@ public class Hand {
         return false;
     }
 
-    public boolean haveTriplets() {
-        for (int count : cardCountArray) {
-            if (count >= 3) {
+    public boolean haveSequenceOFTripletWithAttachedPair() {
+        ArrayList<Card> tripletArray = tripletsList();
+        ArrayList<Card> pairArray = pairsList();
+        ArrayList<Card> array = new ArrayList<Card>();
+        int previousVal = tripletArray.get(0).getValue();
+        array.add(tripletArray.get(0));
+        for (Card card : tripletArray) {
+            if (card.getValue() - 1 == previousVal) {
+                array.add(card);
+            }
+            else {
+                array = new ArrayList<Card>();
+            }
+            previousVal = card.getValue();
+        }
+        if (array.size() >= 2) {
+            int count = 0;
+            for (Card card : pairArray) {
+                for (Card c : array) {
+                    if ((card.getValue() != c.getValue()) && (card.getValue() != )) {
+                        count ++;
+                    }
+                }
+            }
+            if (count >= 2) {
                 return true;
             }
         }
         return false;
     }
-
-
 
     public void sortCards() {
         ArrayList<Card> sorted = new ArrayList<Card>();

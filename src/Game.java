@@ -58,6 +58,10 @@ public class Game {
         user = new Player(hand1);
         bot1 = new Player(hand2);
         bot2 = new Player(hand3);
+
+        user.printHand();
+        bot1.printHand();
+        bot2.printHand();
     }
 
 }

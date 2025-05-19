@@ -7,6 +7,17 @@ public class Player {
     private int cashAmt;
     private boolean isLandlord;
 
+    public void printHand() {
+        ArrayList<Card> h = hand.getHand();
+        System.out.println("New player:");
+        int count = 1;
+        for (Card card : h) {
+            System.out.println("card #" + count + ": " + card.getValue());
+            count ++;
+        }
+        System.out.println();
+    }
+
     public Player(ArrayList<Card> h) {
         hand = new Hand(h);
         cashAmt = 100;
@@ -32,9 +43,9 @@ public class Player {
     }
 
     public void dealCards(ArrayList<Card> target) {
-        for (Card card : target) {
-            hand.getHand().remove(target);
-        }
+
+        // update
+
     }
 
 }
