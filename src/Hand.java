@@ -19,7 +19,7 @@ public class Hand {
     private int numOfJoker;
     private int[] cardCountArray;
 
-    public ArrayList<Card> getHand() {
+    public ArrayList<Card> getCardArray() {
         return hand;
     }
 
@@ -41,6 +41,7 @@ public class Hand {
         numOf2 = 0;
         numOfJoker = 0;
         sortCards();
+        countCards();
     }
 
     public void countCards() {
@@ -108,6 +109,12 @@ public class Hand {
                 array.add(hand.get(count));
             }
         }
+//        System.out.println("test run triplets list");
+//        System.out.print("[");
+//        for (Card card : array) {
+//            System.out.print(card.getValue() + ", ");
+//        }
+//        System.out.println("]");
         return array;
     }
 
@@ -123,6 +130,14 @@ public class Hand {
                 array.add(hand.get(count));
             }
         }
+//
+//        System.out.println("test run singles list");
+//        System.out.print("[");
+//        for (Card card : array) {
+//            System.out.print(card.getValue() + ", ");
+//        }
+//        System.out.println("]");
+
         return array;
     }
 
@@ -138,6 +153,12 @@ public class Hand {
                 array.add(hand.get(count));
             }
         }
+//        System.out.println("test run pairs list");
+//        System.out.print("[");
+//        for (Card card : array) {
+//            System.out.print(card.getValue() + ", ");
+//        }
+//        System.out.println("]");
         return array;
     }
 
@@ -153,6 +174,12 @@ public class Hand {
                 array.add(hand.get(count));
             }
         }
+//        System.out.println("test run triplets list");
+//        System.out.print("[");
+//        for (Card card : array) {
+//            System.out.print(card.getValue() + ", ");
+//        }
+//        System.out.println("]");
         return array;
     }
 
@@ -284,7 +311,7 @@ public class Hand {
         array.add(tripletArray.get(0));
         Card current;
 
-        for (int index = 1; index < hand.size(); index ++) {
+        for (int index = 1; index < tripletArray.size(); index ++) {
             current = tripletArray.get(index);
             if ((current.getValue() - 1 == previousVal) && (current.getValue() != 15)) {
                 array.add(current);
@@ -320,7 +347,7 @@ public class Hand {
         array.add(tripletArray.get(0));
         Card current;
 
-        for (int index = 1; index < hand.size(); index ++) {
+        for (int index = 1; index < tripletArray.size(); index ++) {
             current = tripletArray.get(index);
             if ((current.getValue() - 1 == previousVal) && (current.getValue() != 15)) {
                 array.add(current);
@@ -368,7 +395,8 @@ public class Hand {
             for (Card c : singleArray) {
                 if (card.getValue() != c.getValue()) {
                     if ((card.getValue() == 16) || (card.getValue() == 17)) {
-                        if (jokerSelected) {
+                        if (!jokerSelected) {
+                            jokerSelected = true;
                             count ++;
                         }
                     }
@@ -384,15 +412,50 @@ public class Hand {
         return false;
     }
 
-    public boolean haveQuadWithAttachedPair() {
+//    public void testCombinationMethods() {
+//        System.out.println();
+//        System.out.println("If player have single cards: " + haveSingles());
+//        System.out.println("If player have paired cards: " + havePairs());
+//        System.out.println("If player have triplet cards: " + haveTriplets());
+//
+//        System.out.println("If player have triplet with single: " + haveTripletWithAttachedCard());
+//        System.out.println("If player have triplet with pair: " + haveTripletWithAttachedPair());
+//
+//        System.out.println("If player have sequence: " + haveSequence());
+//        System.out.println("If player have sequence of pairs: " + haveSequenceOfPairs());
+//        System.out.println("If player have sequence of triplets: " + haveSequenceOfTriplets());
+//
+//        System.out.println("If player have sequence of triplets with attached card: " + haveSequenceOFTripletWithAttachedCard());
+//        System.out.println("If player have sequence of triplets with attached pair: " + haveSequenceOFTripletWithAttachedPair());
+//        System.out.println("If player have bomb: " + haveBomb());
+//        System.out.println("If player have rocket: " + haveRocket());
+//        System.out.println("If player have quad with 2 singles attached: " + haveQuadWith2AttachedCards());
+//        System.out.println("If player have quad with 2 pairs attached: " + haveQuadWith2AttachedPair());
+//        System.out.println();
+//    }
+
+    public boolean haveQuadWith2AttachedPair() {
         ArrayList<Card> quadArray = quadsList();
         ArrayList<Card> pairArray = pairsList();
+        boolean jokerSelected = false;
+        int count = 0;
         for (Card card : quadArray) {
             for (Card c : pairArray) {
-                if ((card.getValue() != c.getValue()) && (c.get)) {
-                    return true;
+                if (card.getValue() != c.getValue()) {
+                    if ((card.getValue() == 16) || (card.getValue() == 17)) {
+                        if (!jokerSelected) {
+                            jokerSelected = true;
+                            count ++;
+                        }
+                    }
+                    else {
+                        count ++;
+                    }
                 }
             }
+        }
+        if (count >= 2) {
+            return true;
         }
         return false;
     }

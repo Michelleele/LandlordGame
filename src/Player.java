@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Player {
 
@@ -8,7 +7,7 @@ public class Player {
     private boolean isLandlord;
 
     public void printHand() {
-        ArrayList<Card> h = hand.getHand();
+        ArrayList<Card> h = hand.getCardArray();
         System.out.println("New player:");
         int count = 1;
         for (Card card : h) {
@@ -18,12 +17,19 @@ public class Player {
         System.out.println();
     }
 
+    public Hand getHand() {
+        return hand;
+    }
+
     public Player(ArrayList<Card> h) {
         hand = new Hand(h);
         cashAmt = 100;
     }
 
     public void bidForLandlord() {
+
+
+
     }
 
     public boolean isLandlord() {
