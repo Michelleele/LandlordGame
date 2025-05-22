@@ -19,6 +19,10 @@ public class Hand {
     private int numOfJoker;
     private int[] cardCountArray;
 
+    public void setHand(ArrayList<Card> hand) {
+        this.hand = hand;
+    }
+
     public ArrayList<Card> getCardArray() {
         return hand;
     }

@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class Player {
 
-    private Hand hand;
+    protected Hand hand;
     private int cashAmt;
-    private boolean isLandlord;
+    protected boolean isLandlord;
 
     public void printHand() {
         ArrayList<Card> h = hand.getCardArray();
@@ -26,7 +26,7 @@ public class Player {
         cashAmt = 100;
     }
 
-    public void bidForLandlord() {
+    public int bidForLandlord() {
 
 
 
@@ -50,7 +50,7 @@ public class Player {
 
     public void dealCards(ArrayList<Card> target) {
 
-        // update
+
 
     }
 
