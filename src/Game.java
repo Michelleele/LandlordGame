@@ -56,22 +56,22 @@ public class Game {
         }
 
         user = new Player(hand1);
-        bot1 = new Player(hand2);
-        bot2 = new Player(hand3);
+        bot1 = new Bot(hand2);
+        bot2 = new Bot(hand3);
 
-//        System.out.println("___________________________________________________________________");
-//        user.printHand();
-//        System.out.println();
-//        user.getCardArray().testCombinationMethods();
-//        System.out.println("___________________________________________________________________");
-//        bot1.printHand();
-//        System.out.println();
-//        bot1.getCardArray().testCombinationMethods();
-//        System.out.println("___________________________________________________________________");
-//        bot2.printHand();
-//        System.out.println();
-//        bot2.getCardArray().testCombinationMethods();
-//        System.out.println("___________________________________________________________________");
+        System.out.println("___________________________________________________________________");
+        user.printHand();
+        System.out.println();
+        user.getHand().testCombinationMethods();
+        System.out.println("___________________________________________________________________");
+        bot1.printHand();
+        System.out.println();
+        bot1.getHand().testCombinationMethods();
+        System.out.println("___________________________________________________________________");
+        bot2.printHand();
+        System.out.println();
+        bot2.getHand().testCombinationMethods();
+        System.out.println("___________________________________________________________________");
 
     }
 

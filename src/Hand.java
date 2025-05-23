@@ -18,6 +18,7 @@ public class Hand {
     private int numOf3;
     private int numOfJoker;
     private int[] cardCountArray;
+    private boolean[] combinationArray;
 
     public void setHand(ArrayList<Card> hand) {
         this.hand = hand;
@@ -44,8 +45,27 @@ public class Hand {
         numOfA = 0;
         numOf2 = 0;
         numOfJoker = 0;
+        combinationArray = new boolean[14];
         sortCards();
         countCards();
+        setCombinationArray();
+    }
+
+    public void setCombinationArray() {
+        haveSingles();
+        havePairs();
+        haveTriplets();
+        haveTripletWithAttachedCard();
+        haveTripletWithAttachedPair();
+        haveSequence();
+        haveSequenceOfPairs();
+        haveSequenceOfTriplets();
+        haveSequenceOFTripletWithAttachedCard();
+        haveSequenceOFTripletWithAttachedPair();
+        haveBomb();
+        haveRocket();
+        haveQuadWith2AttachedCards();
+        haveQuadWith2AttachedPair();
     }
 
     public void countCards() {
@@ -187,210 +207,221 @@ public class Hand {
         return array;
     }
 
-    public boolean haveSingles() {
+    public void haveSingles() {
         ArrayList<Card> array = singlesList();
         if (array.size() > 0) {
-            return true;
+            combinationArray[0] = true;
         }
-        return false;
     }
 
-    public boolean havePairs() {
+    public void havePairs() {
         ArrayList<Card> array = pairsList();
         if (array.size() > 0) {
-            return true;
+            combinationArray[1] = true;
         }
-        return false;
     }
 
-    public boolean haveTriplets() {
+    public void haveTriplets() {
         ArrayList<Card> array = tripletsList();
         if (array.size() > 0) {
-            return true;
+            combinationArray[2] = true;
         }
-        return false;
     }
 
-    public boolean haveTripletWithAttachedCard() {
+    public void haveTripletWithAttachedCard() {
         ArrayList<Card> tripletArray = tripletsList();
         ArrayList<Card> singleArray = singlesList();
         for (Card card : tripletArray) {
             for (Card c : singleArray) {
                 if (card.getValue() != c.getValue()) {
-                    return true;
+                    combinationArray[3] = true;
                 }
             }
         }
-        return false;
     }
 
-    public boolean haveTripletWithAttachedPair() {
+    public void haveTripletWithAttachedPair() {
         ArrayList<Card> tripletArray = tripletsList();
         ArrayList<Card> pairArray = pairsList();
         for (Card card : tripletArray) {
             for (Card c : pairArray) {
                 if (card.getValue() != c.getValue()) {
-                    return true;
+                    combinationArray[4] = true;
                 }
             }
         }
-        return false;
     }
 
-    public boolean haveSequence() {
+    public void haveSequence() {
         ArrayList<Card> singlesList = singlesList();
         ArrayList<Card> array = new ArrayList<Card>();
-        int previousVal = singlesList.get(0).getValue();
-        Card current;
-        array.add(singlesList.get(0));
-        for (int index = 1; index < singlesList.size(); index ++) {
-            current = singlesList.get(index);
-            if ((current.getValue() - 1 == previousVal) && (current.getValue() != 15) && (current.getValue() != 16) && (current.getValue() != 17)) {
-                array.add(current);
+        try {
+            int previousVal = singlesList.get(0).getValue();
+            Card current;
+            array.add(singlesList.get(0));
+            for (int index = 1; index < singlesList.size(); index ++) {
+                current = singlesList.get(index);
+                if ((current.getValue() - 1 == previousVal) && (current.getValue() != 15) && (current.getValue() != 16) && (current.getValue() != 17)) {
+                    array.add(current);
+                }
+                else {
+                    array = new ArrayList<Card>();
+                }
+                previousVal = current.getValue();
             }
-            else {
-                array = new ArrayList<Card>();
-            }
-            previousVal = current.getValue();
-        }
 
-        if (array.size() >= 5) {
-            return true;
+            if (array.size() >= 5) {
+                combinationArray[5] = true;
+            }
         }
-        return false;
+        catch (IndexOutOfBoundsException e) {
+        }
     }
 
-    public boolean haveSequenceOfPairs() {
+    public void haveSequenceOfPairs() {
         ArrayList<Card> pairList = pairsList();
         ArrayList<Card> array = new ArrayList<Card>();
-        int previousVal = pairList.get(0).getValue();
-        Card current;
-        array.add(pairList.get(0));
-        for (int index = 1; index < pairList.size(); index ++) {
-            current = pairList.get(index);
-            if ((current.getValue() - 1 == previousVal) && (current.getValue() != 15) && (current.getValue() != 16) && (current.getValue() != 17)) {
-                array.add(current);
+        try {
+            int previousVal = pairList.get(0).getValue();
+            Card current;
+            array.add(pairList.get(0));
+            for (int index = 1; index < pairList.size(); index ++) {
+                current = pairList.get(index);
+                if ((current.getValue() - 1 == previousVal) && (current.getValue() != 15) && (current.getValue() != 16) && (current.getValue() != 17)) {
+                    array.add(current);
+                }
+                else {
+                    array = new ArrayList<Card>();
+                }
+                previousVal = current.getValue();
             }
-            else {
-                array = new ArrayList<Card>();
+
+            if (array.size() >= 3) {
+                combinationArray[6] = true;
             }
-            previousVal = current.getValue();
+        }
+        catch (IndexOutOfBoundsException e) {
         }
 
-        if (array.size() >= 3) {
-            return true;
-        }
-        return false;
     }
 
-    public boolean haveSequenceOfTriplets() {
+    public void haveSequenceOfTriplets() {
         ArrayList<Card> tripletList = tripletsList();
         ArrayList<Card> array = new ArrayList<Card>();
-        int previousVal = tripletList.get(0).getValue();
-        Card current;
-        array.add(tripletList.get(0));
-        for (int index = 1; index < tripletList.size(); index ++) {
-            current = tripletList.get(index);
-            if ((current.getValue() - 1 == previousVal) && (current.getValue() != 15)) {
-                array.add(current);
+        try {
+            int previousVal = tripletList.get(0).getValue();
+            Card current;
+            array.add(tripletList.get(0));
+            for (int index = 1; index < tripletList.size(); index ++) {
+                current = tripletList.get(index);
+                if ((current.getValue() - 1 == previousVal) && (current.getValue() != 15)) {
+                    array.add(current);
+                }
+                else {
+                    array = new ArrayList<Card>();
+                }
+                previousVal = current.getValue();
             }
-            else {
-                array = new ArrayList<Card>();
-            }
-            previousVal = current.getValue();
-        }
 
-        if (array.size() >= 2) {
-            return true;
+            if (array.size() >= 2) {
+                combinationArray[7] = true;
+            }
         }
-        return false;
+        catch (IndexOutOfBoundsException e) {
+        }
     }
 
-    public boolean haveSequenceOFTripletWithAttachedCard() {
+    public void haveSequenceOFTripletWithAttachedCard() {
         ArrayList<Card> tripletArray = tripletsList();
         ArrayList<Card> singleArray = singlesList();
         ArrayList<Card> array = new ArrayList<Card>();
 
-        int previousVal = tripletArray.get(0).getValue();
-        array.add(tripletArray.get(0));
-        Card current;
+        try {
+            int previousVal = tripletArray.get(0).getValue();
+            array.add(tripletArray.get(0));
+            Card current;
 
-        for (int index = 1; index < tripletArray.size(); index ++) {
-            current = tripletArray.get(index);
-            if ((current.getValue() - 1 == previousVal) && (current.getValue() != 15)) {
-                array.add(current);
+            for (int index = 1; index < tripletArray.size(); index ++) {
+                current = tripletArray.get(index);
+                if ((current.getValue() - 1 == previousVal) && (current.getValue() != 15)) {
+                    array.add(current);
+                }
+                else {
+                    array = new ArrayList<Card>();
+                }
+                previousVal = current.getValue();
             }
-            else {
-                array = new ArrayList<Card>();
-            }
-            previousVal = current.getValue();
-        }
 
-        if (array.size() >= 2) {
-            int count = 0;
-            for (Card card : singleArray) {
-                for (Card c : array) {
-                    if (card.getValue() != c.getValue()) {
-                        count ++;
+            if (array.size() >= 2) {
+                int count = 0;
+                for (Card card : singleArray) {
+                    for (Card c : array) {
+                        if (card.getValue() != c.getValue()) {
+                            count ++;
+                        }
                     }
                 }
-            }
-            if (count >= 2) {
-                return true;
+                if (count >= 2) {
+                    combinationArray[8] = true;
+                }
             }
         }
-        return false;
+        catch (IndexOutOfBoundsException e) {
+        }
     }
 
-    public boolean haveSequenceOFTripletWithAttachedPair() {
+    public void haveSequenceOFTripletWithAttachedPair() {
         ArrayList<Card> tripletArray = tripletsList();
         ArrayList<Card> pairArray = pairsList();
         ArrayList<Card> array = new ArrayList<Card>();
 
-        int previousVal = tripletArray.get(0).getValue();
-        array.add(tripletArray.get(0));
-        Card current;
+        try {
+            int previousVal = tripletArray.get(0).getValue();
+            array.add(tripletArray.get(0));
+            Card current;
 
-        for (int index = 1; index < tripletArray.size(); index ++) {
-            current = tripletArray.get(index);
-            if ((current.getValue() - 1 == previousVal) && (current.getValue() != 15)) {
-                array.add(current);
+            for (int index = 1; index < tripletArray.size(); index ++) {
+                current = tripletArray.get(index);
+                if ((current.getValue() - 1 == previousVal) && (current.getValue() != 15)) {
+                    array.add(current);
+                }
+                else {
+                    array = new ArrayList<Card>();
+                }
+                previousVal = current.getValue();
             }
-            else {
-                array = new ArrayList<Card>();
-            }
-            previousVal = current.getValue();
-        }
 
-        if (array.size() >= 2) {
-            int count = 0;
-            for (Card card : pairArray) {
-                for (Card c : array) {
-                    if ((card.getValue() != c.getValue()) && (card.getValue() != 17) && (card.getValue() != 18)) {
-                        count ++;
+            if (array.size() >= 2) {
+                int count = 0;
+                for (Card card : pairArray) {
+                    for (Card c : array) {
+                        if ((card.getValue() != c.getValue()) && (card.getValue() != 17) && (card.getValue() != 18)) {
+                            count ++;
+                        }
                     }
                 }
-            }
-            if (count >= 2) {
-                return true;
+                if (count >= 2) {
+                    combinationArray[9] = true;
+                }
             }
         }
-        return false;
+        catch (IndexOutOfBoundsException e) {
+        }
+
     }
 
-    public boolean haveBomb() {
+    public void haveBomb() {
         ArrayList<Card> array = quadsList();
         if (array.size() > 0) {
-            return true;
+            combinationArray[10] = true;
         }
-        return false;
     }
 
-    public boolean haveRocket() {
-        return numOfJoker == 2;
+    public void haveRocket() {
+        combinationArray[11] = numOfJoker == 2;
     }
 
-    public boolean haveQuadWith2AttachedCards() {
+    public void haveQuadWith2AttachedCards() {
         ArrayList<Card> quadArray = quadsList();
         ArrayList<Card> singleArray = singlesList();
         boolean jokerSelected = false;
@@ -411,34 +442,37 @@ public class Hand {
             }
         }
         if (count >= 2) {
-            return true;
+            combinationArray[12] = true;
         }
-        return false;
     }
 
-//    public void testCombinationMethods() {
-//        System.out.println();
-//        System.out.println("If player have single cards: " + haveSingles());
-//        System.out.println("If player have paired cards: " + havePairs());
-//        System.out.println("If player have triplet cards: " + haveTriplets());
-//
-//        System.out.println("If player have triplet with single: " + haveTripletWithAttachedCard());
-//        System.out.println("If player have triplet with pair: " + haveTripletWithAttachedPair());
-//
-//        System.out.println("If player have sequence: " + haveSequence());
-//        System.out.println("If player have sequence of pairs: " + haveSequenceOfPairs());
-//        System.out.println("If player have sequence of triplets: " + haveSequenceOfTriplets());
-//
-//        System.out.println("If player have sequence of triplets with attached card: " + haveSequenceOFTripletWithAttachedCard());
-//        System.out.println("If player have sequence of triplets with attached pair: " + haveSequenceOFTripletWithAttachedPair());
-//        System.out.println("If player have bomb: " + haveBomb());
-//        System.out.println("If player have rocket: " + haveRocket());
-//        System.out.println("If player have quad with 2 singles attached: " + haveQuadWith2AttachedCards());
-//        System.out.println("If player have quad with 2 pairs attached: " + haveQuadWith2AttachedPair());
-//        System.out.println();
-//    }
+    public void testCombinationMethods() {
+        System.out.println();
+        System.out.println("If player have single cards: " + combinationArray[0]);
+        System.out.println("If player have paired cards: " + combinationArray[1]);
+        System.out.println("If player have triplet cards: " + combinationArray[2]);
 
-    public boolean haveQuadWith2AttachedPair() {
+        System.out.println("If player have triplet with single: " + combinationArray[3]);
+        System.out.println("If player have triplet with pair: " + combinationArray[4]);
+
+        System.out.println("If player have sequence: " + combinationArray[5]);
+        System.out.println("If player have sequence of pairs: " + combinationArray[6]);
+        System.out.println("If player have sequence of triplets: " + combinationArray[7]);
+
+        System.out.println("If player have sequence of triplets with attached card: " + combinationArray[8]);
+        System.out.println("If player have sequence of triplets with attached pair: " + combinationArray[9]);
+        System.out.println("If player have bomb: " + combinationArray[10]);
+        System.out.println("If player have rocket: " + combinationArray[11]);
+        System.out.println("If player have quad with 2 singles attached: " + combinationArray[12]);
+        System.out.println("If player have quad with 2 pairs attached: " + combinationArray[13]);
+        System.out.println();
+    }
+
+    public boolean[] getCombinationArray() {
+        return combinationArray;
+    }
+
+    public void haveQuadWith2AttachedPair() {
         ArrayList<Card> quadArray = quadsList();
         ArrayList<Card> pairArray = pairsList();
         boolean jokerSelected = false;
@@ -459,9 +493,8 @@ public class Hand {
             }
         }
         if (count >= 2) {
-            return true;
+            combinationArray[13] = true;
         }
-        return false;
     }
 
     public void sortCards() {

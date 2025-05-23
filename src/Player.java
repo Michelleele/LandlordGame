@@ -27,9 +27,7 @@ public class Player {
     }
 
     public int bidForLandlord() {
-
-
-
+        return 0;
     }
 
     public boolean isLandlord() {
