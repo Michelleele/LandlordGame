@@ -116,8 +116,7 @@ public class Hand {
                 numOfJoker++;
             }
         }
-        cardCountArray = new int[]
-                {numOf3, numOf4, numOf5, numOf6, numOf7, numOf8, numOf9, numOf10,
+        cardCountArray = new int[] {numOf3, numOf4, numOf5, numOf6, numOf7, numOf8, numOf9, numOf10,
                         numOfJ, numOfQ, numOfK, numOfA, numOf2, numOfJoker};
     }
 
@@ -146,7 +145,7 @@ public class Hand {
         ArrayList<Card> array = new ArrayList<>();
         int count;
         for (int index = 0; index < cardCountArray.length; index ++) {
-            if (cardCountArray[index] == 1) {
+            if (cardCountArray[index] >= 1) {
                 count = 0;
                 for (int x = 0; x < index; x ++) {
                     count += cardCountArray[x];
@@ -169,7 +168,7 @@ public class Hand {
         ArrayList<Card> array = new ArrayList<>();
         int count;
         for (int index = 0; index < cardCountArray.length; index++) {
-            if (cardCountArray[index] == 2 && index != 13) {
+            if (cardCountArray[index] >= 2 && index != 13) {
                 count = 0;
                 for (int x = 0; x < index; x++) {
                     count += cardCountArray[x];
@@ -190,7 +189,7 @@ public class Hand {
         ArrayList<Card> array = new ArrayList<>();
         int count;
         for (int index = 0; index < cardCountArray.length; index ++) {
-            if (cardCountArray[index] == 3) {
+            if (cardCountArray[index] >= 3) {
                 count = 0;
                 for (int x = 0; x < index; x ++) {
                     count += cardCountArray[x];
@@ -418,7 +417,9 @@ public class Hand {
     }
 
     public void haveRocket() {
-        combinationArray[11] = numOfJoker == 2;
+        if (cardCountArray[11] == 2) {
+            combinationArray[11] = true;
+        }
     }
 
     public void haveQuadWith2AttachedCards() {
