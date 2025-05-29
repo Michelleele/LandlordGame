@@ -4,8 +4,8 @@ public class Game {
 
     private ArrayList<Card> deck;
     private Player user;
-    private Player bot1;
-    private Player bot2;
+    private Bot bot1;
+    private Bot bot2;
     private Card[] bottomCards;
 
     public Game() {
@@ -60,15 +60,21 @@ public class Game {
         bot2 = new Bot(hand3);
 
         System.out.println("___________________________________________________________________");
-        user.printHand();
         System.out.println();
         user.getHand().testCombinationMethods();
         System.out.println("___________________________________________________________________");
         bot1.printHand();
+        System.out.println("Bot 1 test bot arrays");
+        bot1.testArrays();
+        System.out.println("___________________________________________________________________");
         System.out.println();
         bot1.getHand().testCombinationMethods();
         System.out.println("___________________________________________________________________");
         bot2.printHand();
+        System.out.println("Bot 2 test bot arrays");
+        bot2.testArrays();
+        System.out.println("___________________________________________________________________");
+        user.printHand();
         System.out.println();
         bot2.getHand().testCombinationMethods();
         System.out.println("___________________________________________________________________");

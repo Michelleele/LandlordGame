@@ -19,6 +19,49 @@ public class Bot extends Player {
 
     public Bot(ArrayList<Card> h) {
         super(h);
+        setSingles();
+        setPairs();
+        setTriplets();
+    }
+
+    public void testArrays() {
+        System.out.println("-----------------------------------------------------------------------------------------");
+        System.out.println("singles size: " + singles.size());
+        System.out.println("singles array:\n[");
+        if (singles.size() >= 1) {
+            for (Card[] array : singles) {
+                System.out.print(" [");
+                for (Card card : array) {
+                    System.out.print(card.getValue() + ", ");
+                }
+                System.out.print("],");
+            }
+        }
+        System.out.println();
+        System.out.println("pair size: " + pairs.size());
+        System.out.println("pair array:\n[");
+        if (pairs.size() >= 1) {
+            for (Card[] array : pairs) {
+                System.out.print(" [");
+                for (Card card : array) {
+                    System.out.print(card.getValue() + ", ");
+                }
+                System.out.print("],");
+            }
+        }
+        System.out.println();
+        System.out.println("triplet size: " + triplets.size());
+        if (triplets.size() >= 1) {
+            System.out.println("triplets array:\n[");
+            for (Card[] array : triplets) {
+                System.out.print(" [");
+                for (Card card : array) {
+                    System.out.print(card.getValue() + ", ");
+                }
+                System.out.print("],");
+            }
+        }
+        System.out.println("-----------------------------------------------------------------------------------------");
     }
 
     public void refreshLists() {
@@ -45,7 +88,7 @@ public class Bot extends Player {
 
         for (Card card : hand.getCardArray()) {
             single = new Card[] {card};
-             if (!foundInArray(singles, card)) {
+             if ((!foundInArray(singles, card)) && (card.getValue() != 0)) {
                  singles.add(single);
              }
         }
@@ -62,19 +105,21 @@ public class Bot extends Player {
         for (int currentIndex = 0; currentIndex < cardArray.size(); currentIndex ++) {
             onePair = new Card[2];
             currentCard = cardArray.get(currentIndex);
+//            System.out.println("----- current val: " + currentCard.getValue() + "--------");
 
             for (int nextIndex = currentIndex + 1; nextIndex < cardArray.size(); nextIndex ++) {
                 nextCard = cardArray.get(nextIndex);
+//                System.out.println("----- next val: " + nextCard.getValue() + "--------");
                 if (currentCard.getValue() == nextCard.getValue()) {
                     onePair[0] = currentCard;
                     onePair[1] = nextCard;
-                    nextIndex = cardArray.size();
                     currentIndex ++;
+                    nextIndex = cardArray.size();
                 }
             }
 
             try {
-                if (!foundInArray(pairs, onePair[0])) {
+                if ((!foundInArray(pairs, onePair[0]))) {
                     pairs.add(onePair);
                 }
             }
@@ -83,35 +128,53 @@ public class Bot extends Player {
     }
 
     public void setTriplets() {
+        System.out.println("-----------------------------------------------------------------------------------------");
         triplets = new ArrayList<Card[]>();
         Card[] oneTriplet;
         ArrayList<Card> cardArray = hand.getCardArray();
         Card currentCard;
-        Card nextCard;
+        Card firstCard;
+        Card secondCard;
 
         for (int currentIndex = 0; currentIndex < cardArray.size(); currentIndex ++) {
             oneTriplet = new Card[3];
             currentCard = cardArray.get(currentIndex);
+            System.out.println("Current card val: " + currentCard.getValue());
 
             for (int nextIndex = currentIndex + 1; nextIndex < cardArray.size(); nextIndex ++) {
-                nextCard = cardArray.get(nextIndex);
-                if (currentCard.getValue() == nextCard.getValue()) {
-                    onePair[0] = currentCard;
-                    onePair[1] = nextCard;
+                if (nextIndex + 1 >= cardArray.size()) {
                     nextIndex = cardArray.size();
                 }
+                else {
+                    System.out.println("-----------------------------------------");
+                    firstCard = cardArray.get(nextIndex);
+                    System.out.println("first card val: " + firstCard.getValue());
+                    secondCard = cardArray.get(nextIndex + 1);
+                    System.out.println("second card val: " + secondCard.getValue());
+                    if ((currentCard.getValue() == firstCard.getValue()) && (firstCard.getValue() == secondCard.getValue())) {
+                        oneTriplet[0] = currentCard;
+                        System.out.println(oneTriplet[0].getValue());
+                        oneTriplet[1] = firstCard;
+                        System.out.println(oneTriplet[1].getValue());
+                        oneTriplet[2] = secondCard;
+                        System.out.println(oneTriplet[2].getValue());
+                        nextIndex = cardArray.size();
+                        System.out.println("-----------------------------------------");
+                    }
+                }
+
             }
 
             try {
-                if (!foundInArray(pairs, onePair[0])) {
-                    pairs.add(onePair);
+                if (!foundInArray(triplets, oneTriplet[0])) {
+                    System.out.println("added " + oneTriplet[0].getValue() + " to the list");
+                    triplets.add(oneTriplet);
                 }
             }
             catch (NullPointerException e) {}
         }
+        System.out.println("-----------------------------------------------------------------------------------------");
     }
-
-    public void setTripletWithAttachedCard
 
     public ArrayList<Card> getMatchingCards(int combinationIndex) {
         ArrayList<Card> array = new ArrayList<Card>();
