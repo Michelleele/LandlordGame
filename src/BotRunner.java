@@ -6,8 +6,8 @@ public class BotRunner {
         Card c2 = new Card("clubs", "05");
         Card c3 = new Card("clubs", "07");
         Card c4 = new Card("clubs", "07");
-        Card c5 = new Card("clubs", "08");
-        Card c6 = new Card("clubs", "09");
+        Card c5 = new Card("clubs", "07");
+        Card c6 = new Card("clubs", "07");
         Card c7 = new Card("clubs", "09");
         Card c8 = new Card("clubs", "10");
         Card c9 = new Card("clubs", "10");

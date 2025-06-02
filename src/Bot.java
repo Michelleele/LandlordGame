@@ -5,23 +5,13 @@ public class Bot extends Player {
     private ArrayList<Card[]> singles;
     private ArrayList<Card[]> pairs;
     private ArrayList<Card[]> triplets;
-    private ArrayList<Card[]> tripletWithAttachedCard;
-    private ArrayList<Card[]> tripletWithAttachedPair;
-    private ArrayList<Card[]> sequence;
-    private ArrayList<Card[]> sequenceOfPairs;
-    private ArrayList<Card[]> sequenceOfTriplets;
-    private ArrayList<Card[]> sequenceOFTripletWithAttachedCard;
-    private ArrayList<Card[]> sequenceOFTripletWithAttachedPair;
     private ArrayList<Card[]> bomb;
+    private ArrayList<Card[]> sequence;
     private ArrayList<Card[]> rocket;
-    private ArrayList<Card[]> QuadWith2AttachedCards;
-    private ArrayList<Card[]> QuadWith2AttachedPair;
 
     public Bot(ArrayList<Card> h) {
         super(h);
-        setSingles();
-        setPairs();
-        setTriplets();
+        refreshLists();
     }
 
     public void testArrays() {
@@ -44,7 +34,6 @@ public class Bot extends Player {
             for (Card[] array : pairs) {
                 System.out.print(" [");
                 for (Card card : array) {
-                    System.out.println(card);
                     System.out.print(card.getValue() + ", ");
                 }
                 System.out.print("],");
@@ -62,15 +51,28 @@ public class Bot extends Player {
                 System.out.print("],");
             }
         }
+        System.out.println();
+        System.out.println("quad size: " + bomb.size());
+        if (bomb.size() >= 1) {
+            System.out.println("quad array:\n[");
+            for (Card[] array : bomb) {
+                System.out.print(" [");
+                for (Card card : array) {
+                    System.out.print(card.getValue() + ", ");
+                }
+                System.out.print("],");
+            }
+        }
         System.out.println("-----------------------------------------------------------------------------------------");
     }
 
     public void refreshLists() {
-
+        setSingles();
+        setPairs();
+        setTriplets();
+        setQuads();
     }
 
-    //should I have a card variable as the parameter or a card array
-    // use card!!!
     public static boolean foundInArray(ArrayList<Card[]> array, Card card) {
         for (Card[] subArray : array) {
             for (Card element : subArray) {
@@ -106,51 +108,23 @@ public class Bot extends Player {
         for (int currentIndex = 0; currentIndex < cardArray.size(); currentIndex ++) {
             onePair = new Card[2];
             currentCard = cardArray.get(currentIndex);
-//            System.out.println("----- current val: " + currentCard.getValue() + "--------");
 
             for (int nextIndex = currentIndex + 1; nextIndex < cardArray.size(); nextIndex ++) {
                 nextCard = cardArray.get(nextIndex);
                 if (currentCard.getValue() == nextCard.getValue()) {
-                    System.out.println("----- new pair found--------");
                     onePair[0] = currentCard;
-
                     onePair[1] = nextCard;
                     currentIndex ++;
                     nextIndex = cardArray.size();
-                }
-            }
-
-            try {
-                System.out.println("onePair = [" + onePair[0].getValue() + ", " + onePair[1].getValue() + "]");
-            }
-            catch (NullPointerException e) {
-                System.out.println("no elements were added to the array onePair");
-            }
-
-            try {
-                if ((!foundInArray(pairs, onePair[0]))) {
-                    pairs.add(onePair);
-                }
-            }
-
-            catch (NullPointerException e) {}
-
-            if (pairs.size() > 0) {
-                System.out.print("pairs = [");
-                for (Card[] pair : pairs) {
-                    System.out.print("[");
-                    for (Card card : pair) {
-                        System.out.print(card.getValue() + " ");
+                    if ((!foundInArray(pairs, onePair[0]))) {
+                        pairs.add(onePair);
                     }
-                    System.out.print("] ");
                 }
             }
-
         }
     }
 
     public void setTriplets() {
-//        System.out.println("-----------------------------------------------------------------------------------------");
         triplets = new ArrayList<Card[]>();
         Card[] oneTriplet;
         ArrayList<Card> cardArray = hand.getCardArray();
@@ -161,41 +135,64 @@ public class Bot extends Player {
         for (int currentIndex = 0; currentIndex < cardArray.size(); currentIndex ++) {
             oneTriplet = new Card[3];
             currentCard = cardArray.get(currentIndex);
-//            System.out.println("Current card val: " + currentCard.getValue());
-
             for (int nextIndex = currentIndex + 1; nextIndex < cardArray.size(); nextIndex ++) {
                 if (nextIndex + 1 >= cardArray.size()) {
                     nextIndex = cardArray.size();
                 }
                 else {
-//                    System.out.println("-----------------------------------------");
                     firstCard = cardArray.get(nextIndex);
-//                    System.out.println("first card val: " + firstCard.getValue());
                     secondCard = cardArray.get(nextIndex + 1);
-//                    System.out.println("second card val: " + secondCard.getValue());
                     if ((currentCard.getValue() == firstCard.getValue()) && (firstCard.getValue() == secondCard.getValue())) {
                         oneTriplet[0] = currentCard;
-//                        System.out.println(oneTriplet[0].getValue());
                         oneTriplet[1] = firstCard;
-//                        System.out.println(oneTriplet[1].getValue());
                         oneTriplet[2] = secondCard;
-//                        System.out.println(oneTriplet[2].getValue());
+                        if (!foundInArray(triplets, oneTriplet[0])) {
+                            triplets.add(oneTriplet);
+                        }
                         nextIndex = cardArray.size();
-//                        System.out.println("-----------------------------------------");
                     }
                 }
-
             }
+        }
+    }
 
-            try {
-                if (!foundInArray(triplets, oneTriplet[0])) {
-//                    System.out.println("added " + oneTriplet[0].getValue() + " to the list");
-                    triplets.add(oneTriplet);
+    public void setQuads() {
+        bomb = new ArrayList<Card[]>();
+        Card[] oneQuad;
+        ArrayList<Card> cardArray = hand.getCardArray();
+        Card currentCard;
+        Card firstCard;
+        Card secondCard;
+        Card thirdcard;
+
+        for (int currentIndex = 0; currentIndex < cardArray.size(); currentIndex ++) {
+            oneQuad = new Card[4];
+            currentCard = cardArray.get(currentIndex);
+            for (int nextIndex = currentIndex + 1; nextIndex < cardArray.size(); nextIndex ++) {
+                if (nextIndex + 2 >= cardArray.size()) {
+                    nextIndex = cardArray.size();
+                }
+                else {
+                    firstCard = cardArray.get(nextIndex);
+                    secondCard = cardArray.get(nextIndex + 1);
+                    thirdcard = cardArray.get(nextIndex + 2);
+                    if ((currentCard.getValue() == firstCard.getValue()) && (firstCard.getValue() == secondCard.getValue()) && (secondCard.getValue() == thirdcard.getValue())) {
+                        oneQuad[0] = currentCard;
+                        oneQuad[1] = firstCard;
+                        oneQuad[2] = secondCard;
+                        oneQuad[3] = thirdcard;
+                        if (!foundInArray(bomb, oneQuad[0])) {
+                            bomb.add(oneQuad);
+                        }
+                        nextIndex = cardArray.size();
+                    }
                 }
             }
-            catch (NullPointerException e) {}
         }
-//        System.out.println("-----------------------------------------------------------------------------------------");
+    }
+
+    public void setSequence() {
+        sequence = new ArrayList<Card[]>();
     }
 
     public ArrayList<Card> getMatchingCards(int combinationIndex) {
