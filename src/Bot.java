@@ -6,7 +6,7 @@ public class Bot extends Player {
     private ArrayList<Card[]> pairs;
     private ArrayList<Card[]> triplets;
     private ArrayList<Card[]> bomb;
-    private ArrayList<Card[]> sequence;
+    private ArrayList<ArrayList<Card>> sequenceOfSingles;
     private ArrayList<Card[]> rocket;
 
     public Bot(ArrayList<Card> h) {
@@ -63,6 +63,18 @@ public class Bot extends Player {
                 System.out.print("],");
             }
         }
+        System.out.println();
+        System.out.println("sequence size: " + sequenceOfSingles.size());
+        if (sequenceOfSingles.size() >= 1) {
+            System.out.println("sequence array:\n[");
+            for (ArrayList<Card> array : sequenceOfSingles) {
+                System.out.print(" [");
+                for (Card card : array) {
+                    System.out.print(card.getValue() + ", ");
+                }
+                System.out.print("],");
+            }
+        }
         System.out.println("-----------------------------------------------------------------------------------------");
     }
 
@@ -71,6 +83,7 @@ public class Bot extends Player {
         setPairs();
         setTriplets();
         setQuads();
+        setSequenceOfSingles();
     }
 
     public static boolean foundInArray(ArrayList<Card[]> array, Card card) {
@@ -191,8 +204,61 @@ public class Bot extends Player {
         }
     }
 
-    public void setSequence() {
-        sequence = new ArrayList<Card[]>();
+    public ArrayList<Card> getSequence(ArrayList<Card> array) {
+        ArrayList<Card> oneSequence = new ArrayList<Card>();
+        int nextIndex;
+        Card currentCard;
+        Card nextCard;
+        for (int currentIndex = 0; currentIndex + 1 < array.size(); currentIndex = nextIndex) {
+            currentCard = array.get(currentIndex);
+            System.out.println("Current card value: " + currentCard.getValue());
+            nextIndex = currentIndex + 1;
+            nextCard = array.get(currentIndex + 1);
+            System.out.println("Next Card value: " + nextCard.getValue());
+            System.out.println();
+            while (nextCard.getValue() == currentCard.getValue()) {
+                System.out.println("We're in the while loop");
+                nextIndex ++;
+                nextCard = array.get(nextIndex);
+                System.out.println("Next Card value: " + nextCard.getValue());
+            }
+            System.out.println();
+            System.out.println((currentCard.getValue() + 1) + " == " + nextCard.getValue());
+            if (currentCard.getValue() + 1 == nextCard.getValue()) {
+                if (oneSequence.size() == 0) {
+                    System.out.println(currentCard.getValue() + " added to oneSequence");
+                    oneSequence.add(currentCard);
+                    array.remove(currentCard);
+                }
+                System.out.println(nextCard.getValue() + " added to oneSequence");
+                oneSequence.add(nextCard);
+                array.remove(nextCard);
+            }
+        }
+        System.out.println("oneSequence.size() = " + oneSequence.size());
+        System.out.print("oneSequence = [");
+        for (Card card : oneSequence) {
+            System.out.print(card.getValue() + ", ");
+        }
+        System.out.println("] \n\n");
+        return oneSequence;
+    }
+
+    public void setSequenceOfSingles() {
+        sequenceOfSingles = new ArrayList<ArrayList<Card>>();
+        ArrayList<Card> cardArray = new ArrayList<Card>();
+        for (Card card : hand.getCardArray()) {
+            cardArray.add(card);
+        }
+        ArrayList<Card> oneSequence = getSequence(cardArray);
+        System.out.println("------------------------------------------------------------------------------------------");
+
+        while (oneSequence.size() >= 5) {
+            sequenceOfSingles.add(oneSequence);
+            oneSequence = getSequence(cardArray);
+        }
+
+        
     }
 
     public ArrayList<Card> getMatchingCards(int combinationIndex) {
