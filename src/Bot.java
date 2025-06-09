@@ -205,62 +205,88 @@ public class Bot extends Player {
     }
 
     public ArrayList<Card> getSequence(ArrayList<Card> array) {
-//        System.out.println("array.size(j) = " + array.size());
-//        System.out.print("array = [");
-//        for (Card card : array) {
-//            System.out.print(card.getValue() + ", ");
-//        }
-//        System.out.println("] \n\n");
+
+        System.out.print("array check: [");
+        for (Card card : array) {
+            System.out.print(card.getValue() + ", ");
+        }
+        System.out.println("]");
+
+        Card previous;
+        Card current = array.get(0);
         ArrayList<Card> oneSequence = new ArrayList<Card>();
-        int nextIndex;
-        Card currentCard;
-        Card nextCard;
-        Boolean wasNextIndexChanged = false;
-//        currentIndex = nextIndex
-        for (int currentIndex = 0; currentIndex + 1 < array.size(); currentIndex ++) {
-//            System.out.println("------------------------------------------------------");
-//            System.out.println("current index = " + currentIndex);
-            currentCard = array.get(currentIndex);
-//            System.out.println("Current card value: " + currentCard.getValue());
-            nextIndex = currentIndex + 1;
-//            System.out.println("next index = " + nextIndex);
-            nextCard = array.get(currentIndex + 1);
-//            System.out.println("Next Card value: " + nextCard.getValue());
-//            System.out.println();
-            while (nextCard.getValue() == currentCard.getValue()) {
-//                System.out.println("We're in the while loop");
-                nextIndex ++;
-                nextCard = array.get(nextIndex);
-                wasNextIndexChanged = true;
-//                System.out.println("Next Card value: " + nextCard.getValue());
+
+        for (int currentIndex = 1; currentIndex < array.size(); currentIndex ++) {
+
+            if (oneSequence.size() == 0) {
+                previous = current;
             }
-            if (wasNextIndexChanged) {
-                currentIndex = nextIndex - 1;
+            else {
+                previous = oneSequence.get(oneSequence.size() - 1);
             }
-//            System.out.println();
-//            System.out.println((currentCard.getValue() + 1) + " == " + nextCard.getValue());
-            if (currentCard.getValue() + 1 == nextCard.getValue()) {
-//                System.out.println(currentCard.getValue() + " added to oneSequence");
-                oneSequence.add(currentCard);
-                array.remove(currentCard);
-                currentIndex --;
-//                System.out.println("index " + nextIndex + " == index " + (array.size() - 1));
-                if (nextIndex == array.size() - 1) {
-//                    System.out.println(nextCard.getValue() + " added to oneSequence");
-                    oneSequence.add(nextCard);
-                    array.remove(nextCard);
+
+            current = array.get(currentIndex);
+
+            System.out.println("currentIndex = " + currentIndex);
+            System.out.println("current card = " + current.getValue());
+            System.out.println("previous card = " + previous.getValue());
+            System.out.println();
+
+            while (previous.getValue() == current.getValue()) {
+                currentIndex ++;
+                System.out.println("\nindex added to: " + currentIndex + "\n");
+                current = array.get(currentIndex);
+            }
+
+            if (previous.getValue() + 1 == current.getValue()) {
+                if (oneSequence.size() == 0) {
+                    currentIndex = array.indexOf(previous) - 1;
+                    System.out.println("\nindex changed to: " + currentIndex + "\n");
+                    System.out.println("\n" + previous.getValue() + " removed1\n");
+                    array.remove(previous);
+                    oneSequence.add(previous);
+                    System.out.println("\n" + current.getValue() + " removed2\n");
+                    array.remove(current);
+                    oneSequence.add(current);
+                }
+                else {
+                    currentIndex = array.indexOf(current) - 1;
+                    array.remove(current);
+                    oneSequence.add(current);
+                }
+
+                System.out.print("array check: [");
+                for (Card card : array) {
+                    System.out.print(card.getValue() + ", ");
+                }
+                System.out.println("]");
+            }
+            else {
+                return oneSequence;
+            }
+        }
+        return oneSequence;
+    }
+
+    public boolean containsSequence(ArrayList<Card> array) {
+        int sequenceLength = 0;
+        for (int card1Index = 0; card1Index < array.size(); card1Index ++) {
+            for (int card2Index = card1Index + 1; card2Index < array.size(); card2Index ++) {
+
+                while (array.get(card1Index).getValue() == array.get(card2Index).getValue()) {
+                    card2Index ++;
+                }
+
+                if (array.get(card1Index).getValue() + 1 == array.get(card2Index).getValue()) {
+                    sequenceLength ++;
+                }
+                else {
+                    sequenceLength = 0;
+                    card2Index = array.size();
                 }
             }
         }
 
-//        System.out.println("oneSequence.size(j) = " + oneSequence.size());
-//        System.out.print("oneSequence = [");
-//        for (Card card : oneSequence) {
-//            System.out.print(card.getValue() + ", ");
-//        }
-//        System.out.println("] \n\n");
-
-        return oneSequence;
     }
 
     public void setSequenceOfSingles() {
@@ -277,7 +303,7 @@ public class Bot extends Player {
         System.out.println("]");
         System.out.println("------------------------------------------------------------------------------------------");
 
-        while (oneSequence.size() >= 5) {
+        while () {
             sequenceOfSingles.add(oneSequence);
             oneSequence = getSequence(cardArray);
             System.out.print("Card Array: [");
