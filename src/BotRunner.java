@@ -41,7 +41,7 @@ public class BotRunner {
 
         Bot b = new Bot(h);
         b.printHand();
-        b.testArrays();
+
     }
 
 }
