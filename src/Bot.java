@@ -7,7 +7,6 @@ public class Bot extends Player {
     private ArrayList<Card[]> triplets;
     private ArrayList<Card[]> bomb;
     private ArrayList<ArrayList<Card>> sequenceOfSingles;
-    private ArrayList<Card[]> rocket;
 
     public Bot(ArrayList<Card> h) {
         super(h);
@@ -204,7 +203,7 @@ public class Bot extends Player {
         }
     }
 
-    public ArrayList<Card> getSequence(ArrayList<Card> array) {
+    public ArrayList<Card> getSequence(ArrayList<Card> array, int targetlength) {
 
         System.out.print("array check: [");
         for (Card card : array) {
@@ -232,7 +231,7 @@ public class Bot extends Player {
             System.out.println("previous card = " + previous.getValue());
             System.out.println();
 
-            while (previous.getValue() == current.getValue()) {
+            while ((previous.getValue() == current.getValue()) && (currentIndex + 1 < array.size())) {
                 currentIndex ++;
                 System.out.println("\nindex added to: " + currentIndex + "\n");
                 current = array.get(currentIndex);
@@ -262,32 +261,65 @@ public class Bot extends Player {
                 System.out.println("]");
             }
             else {
-                return oneSequence;
-            }
-        }
-        return oneSequence;
-    }
-
-    public boolean containsSequence(ArrayList<Card> array) {
-        int sequenceLength = 0;
-        for (int card1Index = 0; card1Index < array.size(); card1Index ++) {
-            for (int card2Index = card1Index + 1; card2Index < array.size(); card2Index ++) {
-
-                while (array.get(card1Index).getValue() == array.get(card2Index).getValue()) {
-                    card2Index ++;
+                System.out.print("one1Sequence check: [");
+                for (Card card : oneSequence) {
+                    System.out.print(card.getValue() + ", ");
                 }
+                System.out.println("]");
 
-                if (array.get(card1Index).getValue() + 1 == array.get(card2Index).getValue()) {
-                    sequenceLength ++;
+                if (oneSequence.size() >= targetlength) {
+                    return oneSequence;
                 }
                 else {
-                    sequenceLength = 0;
-                    card2Index = array.size();
+                    System.out.println("returned empty here 1");
+                    oneSequence = new ArrayList<Card>();
                 }
             }
         }
-
+        if (oneSequence.size() >= targetlength) {
+            System.out.print("oneSequence check: [");
+            for (Card card : oneSequence) {
+                System.out.print(card.getValue() + ", ");
+            }
+            System.out.println("]");
+            return oneSequence;
+        }
+        else {
+            System.out.println("returned empty here 2");
+            return new ArrayList<Card>();
+        }
     }
+
+//    public boolean containsSequence(ArrayList<Card> array, int targetLength) {
+//        int sequenceLength = 0;
+//        for (int card1Index = 0; card1Index < array.size(); card1Index ++) {
+//            for (int card2Index = card1Index + 1; card2Index < array.size(); card2Index ++) {
+//                System.out.println("card1: " + array.get(card1Index).getValue() + ", card2: " + array.get(card2Index).getValue());
+//                while ((card2Index < array.size()) && (array.get(card1Index).getValue() == array.get(card2Index).getValue())) {
+//                    System.out.println("card2: " + array.get(card2Index).getValue());
+//                    card2Index++;
+//                }
+//                System.out.println("if " + array.get(card1Index).getValue() + " == " + array.get(card2Index).getValue());
+//                if ((card2Index < array.size()) && (array.get(card1Index).getValue() + 1 == array.get(card2Index).getValue())) {
+//                    System.out.println("yes \n");
+//                    sequenceLength++;
+//                }
+//                else {
+//                    sequenceLength = 0;
+//                    card2Index = array.size();
+//                }
+//            }
+//        }
+//
+//        if (sequenceLength >= targetLength) {
+//            System.out.println("returned true");
+//            return true;
+//        }
+//        else {
+//            System.out.println("returned false");
+//            return false;
+//        }
+//    }
 
     public void setSequenceOfSingles() {
         sequenceOfSingles = new ArrayList<ArrayList<Card>>();
@@ -295,22 +327,23 @@ public class Bot extends Player {
         for (Card card : hand.getCardArray()) {
             cardArray.add(card);
         }
-        ArrayList<Card> oneSequence = getSequence(cardArray);
-        System.out.print("Card Array: [");
-        for (Card card : cardArray) {
-            System.out.print(card.getValue() + ", ");
-        }
-        System.out.println("]");
-        System.out.println("------------------------------------------------------------------------------------------");
+        ArrayList<Card> oneSequence = getSequence(cardArray, 5);
+//        System.out.print("Card Array: [");
+//        for (Card card : cardArray) {
+//            System.out.print(card.getValue() + ", ");
+//        }
+//        System.out.println("]");
+//        System.out.println("------------------------------------------------------------------------------------------");
 
-        while () {
+
+        while (oneSequence.size() != 0) {
             sequenceOfSingles.add(oneSequence);
-            oneSequence = getSequence(cardArray);
-            System.out.print("Card Array: [");
-            for (Card card : cardArray) {
-                System.out.print(card.getValue() + ", ");
-            }
-            System.out.println("]");
+            oneSequence = getSequence(cardArray, 5);
+//            System.out.print("Card Array: [");
+//            for (Card card : cardArray) {
+//                System.out.print(card.getValue() + ", ");
+//            }
+//            System.out.println("]");
         }
 
         

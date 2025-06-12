@@ -2,17 +2,17 @@ import java.util.ArrayList;
 
 public class BotRunner {
     public static void main(String[] args) {
-        Card c1 = new Card("clubs", "03");
-        Card c2 = new Card("clubs", "05");
-        Card c3 = new Card("clubs", "06");
-        Card c4 = new Card("clubs", "07");
-        Card c5 = new Card("clubs", "08");
-        Card c6 = new Card("clubs", "09");
-        Card c7 = new Card("clubs", "09");
+        Card c1 = new Card("clubs", "04");
+        Card c2 = new Card("clubs", "04");
+        Card c3 = new Card("clubs", "05");
+        Card c4 = new Card("clubs", "06");
+        Card c5 = new Card("clubs", "07");
+        Card c6 = new Card("clubs", "07");
+        Card c7 = new Card("clubs", "07");
         Card c8 = new Card("clubs", "09");
-        Card c9 = new Card("clubs", "10");
-        Card c10 = new Card("clubs", "10");
-        Card c11 = new Card("clubs", "J");
+        Card c9 = new Card("clubs", "09");
+        Card c10 = new Card("clubs", "09");
+        Card c11 = new Card("clubs", "10");
         Card c12 = new Card("clubs", "J");
         Card c13 = new Card("clubs", "Q");
         Card c14 = new Card("clubs", "K");
