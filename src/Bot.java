@@ -4,51 +4,66 @@ public class Bot extends Player {
 
     public Bot(ArrayList<Card> h) {
         super(h);
+        isBot = true;
     }
 
-    public Card[] getSingleCard(Card[] singlePlaced) {
+    public ArrayList<Card> getSingleCard(Card[] singlePlaced) {
         Card previousPlacedCard = singlePlaced[0];
         Card card;
         for (Card[] cardArray : singles) {
            card = cardArray[0];
            if (card.getValue() > previousPlacedCard.getValue()) {
-               return cardArray;
+               ArrayList<Card> n = new ArrayList<Card>();
+               n.add(card);
+               return n;
            }
         }
         return null;
     }
 
-    public Card[] getPairCard(Card[] pairPlaced) {
+    public ArrayList<Card> getPairCard(Card[] pairPlaced) {
         Card[] previousPlacedCard = pairPlaced;
         Card card;
         for (Card[] cardArray : pairs) {
             card = cardArray[0];
             if (card.getValue() > previousPlacedCard[0].getValue()) {
-                return cardArray;
+                ArrayList<Card> n = new ArrayList<Card>();
+                for (Card c : cardArray) {
+                    n.add(c);
+                }
+                return n;
             }
         }
         return null;
     }
 
-    public Card[] getTripletCard(Card[] tripletPlaced) {
+    public ArrayList<Card> getTripletCard(Card[] tripletPlaced) {
         Card[] previousPlacedCard = tripletPlaced;
         Card card;
         for (Card[] cardArray : triplets) {
             card = cardArray[0];
             if (card.getValue() > previousPlacedCard[0].getValue()) {
-                return cardArray;
+                ArrayList<Card> n = new ArrayList<Card>();
+                for (Card c : cardArray) {
+                    n.add(c);
+                }
+                return n;
             }
         }
         return null;
     }
 
-    public Card[] getQuadCard(Card[] quadPlaced) {
+    public ArrayList<Card> getQuadCard(Card[] quadPlaced) {
         Card[] previousPlacedCard = quadPlaced;
         Card card;
         for (Card[] cardArray : bomb) {
             card = cardArray[0];
             if (card.getValue() > previousPlacedCard[0].getValue()) {
-                return cardArray;
+                ArrayList<Card> n = new ArrayList<Card>();
+                for (Card c : cardArray) {
+                    n.add(c);
+                }
+                return n;
             }
         }
         return null;

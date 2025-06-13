@@ -10,11 +10,14 @@ public class Player {
     protected ArrayList<Card[]> triplets;
     protected ArrayList<Card[]> bomb;
     protected ArrayList<ArrayList<Card>> sequenceOfSingles;
+    protected boolean isBot;
 
     public Player(ArrayList<Card> h) {
         hand = new Hand(h);
         cashAmt = 100;
         refreshLists();
+        isBot = false;
+        isLandlord = false;
     }
 
     public void printHand() {

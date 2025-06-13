@@ -15,6 +15,18 @@ public class Game {
 
     }
 
+    public Player getUser() {
+        return user;
+    }
+
+    public Bot getBot2() {
+        return bot2;
+    }
+
+    public Bot getBot1() {
+        return bot1;
+    }
+
     public void buildDeck() {
         ArrayList<Card> array = new ArrayList<Card>();
         String[] suits = {"clubs", "diamonds", "hearts", "spades"};
@@ -70,10 +82,6 @@ public class Game {
         System.out.println("___________________________________________________________________");
         user.printHand();
         System.out.println("___________________________________________________________________");
-
-    }
-
-    public void bidLandlord() {
 
     }
 
