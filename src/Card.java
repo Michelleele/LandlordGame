@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 
 public class Card {
 
+    private boolean selected;
     private String suit;
     private String val;
     private String imageFileName;
@@ -24,6 +25,11 @@ public class Card {
         this.image = readImage();
         this.cardBox = new Rectangle(-100, -100, image.getWidth(), image.getHeight());
         setIntVal();
+        selected = false;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public int getValue() {

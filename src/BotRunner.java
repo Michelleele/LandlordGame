@@ -9,7 +9,7 @@ public class BotRunner {
         Card c5 = new Card("clubs", "07");
         Card c6 = new Card("clubs", "07");
         Card c7 = new Card("clubs", "07");
-        Card c8 = new Card("clubs", "09");
+        Card c8 = new Card("clubs", "07");
         Card c9 = new Card("clubs", "09");
         Card c10 = new Card("clubs", "09");
         Card c11 = new Card("clubs", "10");
@@ -41,7 +41,7 @@ public class BotRunner {
 
         Bot b = new Bot(h);
         b.printHand();
-
+        b.testArrays();
     }
 
 }
