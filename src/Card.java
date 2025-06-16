@@ -23,7 +23,7 @@ public class Card {
         //which image should I show with the card
         //front or back image
         this.image = readImage();
-        this.cardBox = new Rectangle(-100, -100, image.getWidth(), image.getHeight());
+        this.cardBox = new Rectangle(-100, -100, 50, image.getHeight());
         setIntVal();
         selected = false;
     }
@@ -32,8 +32,16 @@ public class Card {
         this.selected = selected;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
     public int getValue() {
         return value;
+    }
+
+    public Rectangle getCardBox() {
+        return cardBox;
     }
 
     public void setIntVal() {

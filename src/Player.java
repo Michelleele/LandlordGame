@@ -10,6 +10,7 @@ public class Player {
     protected ArrayList<Card[]> triplets;
     protected ArrayList<Card[]> bomb;
     protected ArrayList<ArrayList<Card>> sequenceOfSingles;
+    private ArrayList<Card> selected;
     protected boolean isBot;
 
     public Player(ArrayList<Card> h) {
@@ -18,6 +19,15 @@ public class Player {
         refreshLists();
         isBot = false;
         isLandlord = false;
+        selected = new ArrayList<Card>();
+    }
+
+    public void removeCards(ArrayList<Card> cards) {
+        ArrayList<Card> cardArray = hand.getCardArray();
+        for (Card card : cards) {
+            cardArray.remove(card);
+        }
+        refreshLists();
     }
 
     public void printHand() {

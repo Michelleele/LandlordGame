@@ -27,7 +27,6 @@ public class Hand {
     }
 
     public Hand(ArrayList<Card> hand) {
-        this.hand = hand;
         //an array which each element represent the number of cards we have for each card type
         numOf3 = 0;
         numOf4 = 0;
@@ -43,7 +42,7 @@ public class Hand {
         numOfA = 0;
         numOf2 = 0;
         numOfJoker = 0;
-        sortCards();
+        this.hand = sortCards(hand);
         countCards();
     }
 
@@ -97,10 +96,10 @@ public class Hand {
         }
     }
 
-    public void sortCards() {
+    public static ArrayList<Card> sortCards(ArrayList<Card> listToSort) {
         ArrayList<Card> sorted = new ArrayList<Card>();
         boolean isAdded;
-        for (Card card : hand) {
+        for (Card card : listToSort) {
             isAdded = false;
             if (sorted.size() == 0) {
                 sorted.add(card);
@@ -119,7 +118,7 @@ public class Hand {
 
             }
         }
-        hand = sorted;
+        return sorted;
     }
 
 }
